@@ -1,3 +1,8 @@
+(function(define, exports){ define(['rosewood'], function(){
+
+// first arg will be the rosewood module when loaded via AMD loader
+var rw = arguments[0] || window.rw;
+
 var heroX = 0, heroY = 0,
 	heroXTile = 0, heroYTile = 0,
 	eyeCounter = 0, eyesDead = 0,
@@ -336,3 +341,15 @@ var startGame = function() {
 		.start().saveState('init');
 	});
 }
+
+/****** AMD Module Exports ******/
+exports['startGame'] = startGame;
+return exports;
+});
+
+})(
+	typeof define == "undefined" ? function(deps, factory){
+		return factory(); // pass any deps through here
+	} : define, 
+	typeof exports == "undefined" ? this : exports
+);

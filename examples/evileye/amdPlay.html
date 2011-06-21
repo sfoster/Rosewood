@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<script type="text/javascript">
+			var require = {
+				paths: {
+					'rosewood': '../../rosewood' // map path for 'rosewood' module
+				}
+			};
+		</script>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/0.24.0/require.min.js"></script>
+		<script type="text/javascript">
+			require(['rosewood', 'game'], function(rw, game){
+				window['rw'] = rw; // to minimize the diff and keep the buttons hook-up as is
+				require.ready(function(){
+					game.startGame();
+				});
+			});
+		</script>
+	</head>
+	<body style="margin:0;padding:0;">
+		<div id="playarea" style="float:left;margin-right:10px;"></div>
+		Change FPS
+		<input name="fps" id="fps" type="text" value="30" onchange="rw.setFPS(document.getElementById('fps').value);">
+		<br>
+		<input type="button" value="start" onclick="rw.start();">
+		&nbsp;
+		<input type="button" value="stop" onclick="rw.stop();">
+		<p>
+			<strong>Evil Eyes!!!</strong> A game of certain and impending doom.<br>
+			Use the arrow keys to avoid the Evil Eyes. <br>
+			Make the eyes collide to kill them. <br>
+			Collect power-ups to stave off death for a moment longer. <br>
+			Suprisingly addictive.
+		</p>
+	</body>
+</html>
