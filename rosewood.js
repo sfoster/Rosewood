@@ -4,7 +4,20 @@
  * @version 0.75.3
  */
 
-(function(){
+/* 
+	Allow the rosewood engine to be loaded as an AMD module
+	Ref: http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition
+	// the module does:
+	define(id?, dependencies?, factory) 
+	// the application does: 
+	rw = require('lib/rosewood');
+	
+	Rosewood is (currently) dependency-free, and needn't define an id (making it more portable)
+	..so the boilerplate is simple:
+ */
+(function(define, exports){ define(function(){ 
+	// no dependencies, they would show up as params passed to our factory fn.
+	
 	/****** "Global" vars ******/
 	var Run,
 		runGame = false,
@@ -1048,9 +1061,22 @@
 		) : alert('\u00A9 \u2265 2009 Caz vonKow, do what Thou Wilt')
 		return rw
 	}
-	/****** Closure Compiler ******/
-	window['rw']=rw
-	window['rw']['ents']=rw.ents
-	window['rw']['rules']=rw.rules
-	window['rw']['ruleList']=rw.ruleList
-})()
+
+	/****** AMD Module Exports ******/
+	return (function(ex){
+		// mix module properties into our exports
+		// could be more selective here
+		var empty = {};
+		for(var key in rw){
+			if(key in empty || key in ex) continue;
+			ex[key] = rw[key];
+		}
+		return ex;
+	})(exports);
+});
+})(
+	typeof define == "undefined" ? function(factory){
+		return factory(); // pass any deps through here
+	} : define, 
+	typeof exports == "undefined" ? (this['rw'] = {}) : exports
+);
